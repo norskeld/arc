@@ -4,9 +4,20 @@ kind: 'primitive'
 description: "attempt combinator applies parser without consuming any input. It doesn't care if parser succeeds or fails, it won't consume any input."
 ---
 
+<script setup>
+import { useData } from 'vitepress'
+
+const { page } = useData()
+
+const signature = page.value.data
+
+</script>
+
 # attempt <Primitive />
 
 ## Signature
+
+<div v-html="signature"></div>
 
 ```ts
 function attempt<T>(parser: Parser<T>): Parser<T>
@@ -29,6 +40,7 @@ const Parser = sequence(
 ```
 
 ::: tip Success
+
 ```ts
 run(Parser).with('hello lettuce')
 
@@ -39,11 +51,13 @@ run(Parser).with('hello lettuce')
   value: [ 'hello', 'let', 'lettuce' ]
 }
 ```
+
 :::
 
 Notice how differs the output for the last failing case: `attempt` doesn't consume any input, i.e. it doesn't advance `pos`.
 
 ::: danger Failure
+
 ```ts
 run(Parser).with('hello let')
 
@@ -54,7 +68,9 @@ run(Parser).with('hello let')
   expected: 'lettuce'
 }
 ```
+
 ---
+
 ```ts
 run(Parser).with('hello something')
 
@@ -65,6 +81,7 @@ run(Parser).with('hello something')
   expected: 'let'
 }
 ```
+
 :::
 
 <!-- Links. -->
